@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ayub.khosa.myshopapplication.setting.SettingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_setting"
+            style="@style/CardView.Dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#11cc"
+            android:shadowColor="#ffcc00"
+            android:text="Setting Fragment"
+            android:textColor="#fa2bff"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/textView_firstname"
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:hint="first name"
+            android:text="@{viewModel.user.first_name}"
+            android:textSize="25sp"
+            tools:ignore="MissingConstraints" />
+
+
+        <EditText
+            android:id="@+id/editText_firstname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter first name"
+            android:inputType="text"
+            android:text="@={viewModel.user.first_name}"
+            android:textSize="25sp"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/textView_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="last name"
+            android:text="@{viewModel.user.last_name}"
+            android:textSize="25sp"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/editText_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter last name"
+            android:inputType="text"
+            android:text="@={viewModel.user.last_name}"
+            android:textSize="25sp"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/btn_setting_user_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="25sp"
+            app:onClickLogin="@{()->viewModel.onsetting_user_loginClicked()}" />
+
+        <Button
+            android:id="@+id/btn_setting_user_is_logged_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="is_logged_in"
+            android:textSize="25sp"
+            app:onClickLogin="@{()->viewModel.onsetting_user_is_logged_inClicked()}" />
+
+    </LinearLayout>
+</layout>

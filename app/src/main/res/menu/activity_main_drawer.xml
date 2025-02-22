@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/productFragment"
+            android:orderInCategory="100"
+            android:title="productFragment" />
+        <item
+            android:id="@+id/categoryFragment"
+            android:orderInCategory="100"
+            android:title="categoryFragment" />
+        <item
+            android:id="@+id/settingFragment"
+            android:orderInCategory="100"
+            android:title="settingFragment" />
+    </group>
+</menu>
