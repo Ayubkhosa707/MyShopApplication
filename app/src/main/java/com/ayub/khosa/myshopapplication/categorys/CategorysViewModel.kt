@@ -2,26 +2,31 @@ package com.ayub.khosa.myshopapplication.categorys
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ayub.khosa.myshopapplication.model.CATEGORY
 import com.ayub.khosa.myshopapplication.model.ListCATEGORYS
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
+import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
 class CategorysViewModel : ViewModel() {
 
     var listCategorysData: MutableLiveData<ListCATEGORYS> = MutableLiveData()
     var categoryRecyclerViewAdapter: CategoryRecyclerViewAdapter = CategoryRecyclerViewAdapter()
 
+
+    fun getcatgorys() : MutableLiveData<ListCATEGORYS> {
+        listCategorysData = MainActivityRepository.getlistCATEGORYApiCall()
+        return listCategorysData
+    }
     init {
-        var product = CATEGORY("name", "img")
-        val data = kotlin.collections.ArrayList<CATEGORY>()
-        data.add(product)
-        setAdapterData(data)
+
+        PrintLogs.printD("CategorysViewModel  init")
+        setAdapterData(getcatgorys())
     }
 
     fun getAdapter(): CategoryRecyclerViewAdapter {
         return categoryRecyclerViewAdapter
     }
 
-    fun setAdapterData(data: ArrayList<CATEGORY>) {
+    fun setAdapterData(data: MutableLiveData<ListCATEGORYS>) {
         categoryRecyclerViewAdapter.setDataList(data)
         categoryRecyclerViewAdapter.notifyDataSetChanged()
     }

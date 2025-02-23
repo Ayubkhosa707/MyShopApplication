@@ -43,18 +43,12 @@ class CategoryFragment : Fragment() {
             ViewModelProvider(this).get<CategorysViewModel>(CategorysViewModel::class.java)
 
 
-        var product =
-            CATEGORY("Shoes", "https://ayubkhosa.com/ecommerce-website-master/images//shoes.jpg")
-        val data = kotlin.collections.ArrayList<CATEGORY>()
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-
-        viewModel.setAdapterData(data)
+//        var category =
+//            CATEGORY("Shoes", "https://ayubkhosa.com/ecommerce-website-master/images/shoes.jpg")
+//        val data = kotlin.collections.ArrayList<CATEGORY>()
+//        data.add(category)
+//
+//        viewModel.setAdapterData(data)
         this.binding.lifecycleOwner = this
         binding.viewModel = viewModel
         return binding.root

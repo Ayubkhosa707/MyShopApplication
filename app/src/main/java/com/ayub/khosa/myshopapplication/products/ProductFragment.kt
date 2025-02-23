@@ -40,24 +40,17 @@ class ProductFragment : Fragment() {
         val viewModel =
             ViewModelProvider(this).get<ProductsViewModel>(ProductsViewModel::class.java)
 
-        var product = PRODUCT(
-            "Guess 1875",
-            "https://ayubkhosa.com/ecommerce-website-master/images//watch1.jpg",
-            "Watch",
-            "watch here is",
-            "3000"
-        )
-        val data = kotlin.collections.ArrayList<PRODUCT>()
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
-        data.add(product)
+//        var product = PRODUCT(
+//            "Guess 1875",
+//            "https://ayubkhosa.com/ecommerce-website-master/images//watch1.jpg",
+//            "Watch",
+//            "watch here is",
+//            "3000"
+//        )
+//        val data = kotlin.collections.ArrayList<PRODUCT>()
+//        data.add(product)
 
-        viewModel.setAdapterData(data)
+   //     viewModel.setAdapterData(data)
         this.binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
         return binding.root

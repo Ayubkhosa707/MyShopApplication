@@ -30,8 +30,8 @@ class SettingFragment : Fragment() {
         viewModel =
             ViewModelProvider(this).get<SettingViewModel>(SettingViewModel::class.java)
 
-        viewModel.user.value?.first_name = "  AYUB"
-        viewModel.user.value?.last_name = "  KHOSA"
+        viewModel.user.value?.first_name = "AYUB"
+        viewModel.user.value?.last_name = "KHOSA"
 
 
 

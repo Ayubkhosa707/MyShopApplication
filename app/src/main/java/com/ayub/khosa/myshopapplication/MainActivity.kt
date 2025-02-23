@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -89,6 +90,8 @@ class MainActivity : AppCompatActivity() {
 
         PrintLogs.printD("************* MainActivity getLoginUser *****************************")
 
+
+        Toast.makeText(this.applicationContext," MainActivity getLoginUser api call ",Toast.LENGTH_SHORT)
     }
 
     override fun onBackPressed() {

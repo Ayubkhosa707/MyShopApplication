@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ayub.khosa.myshopapplication.R
 import com.ayub.khosa.myshopapplication.databinding.FragmentCategoryListItemBinding
 import com.ayub.khosa.myshopapplication.model.CATEGORY
-import com.bumptech.glide.Glide
+import com.ayub.khosa.myshopapplication.model.ListCATEGORYS
+import com.ayub.khosa.myshopapplication.model.ListPRODUCTS
 
 class CategoryRecyclerViewAdapter :
     RecyclerView.Adapter<CategoryRecyclerViewAdapter.MyViewHolder>() {
-    var categoryArrayList = ArrayList<CATEGORY>()
-
-    fun setDataList(data: ArrayList<CATEGORY>) {
+    var categoryArrayList =MutableLiveData<ListCATEGORYS>()
+    fun setDataList(data: MutableLiveData<ListCATEGORYS>) {
         this.categoryArrayList = data
     }
 
@@ -37,12 +38,15 @@ class CategoryRecyclerViewAdapter :
         return MyViewHolder(binding)
     }
 
-    override fun getItemCount() = categoryArrayList.size
+    override fun getItemCount(): Int  {
 
+        return categoryArrayList.value?.items?.size ?: 0
+
+    }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val datum: CATEGORY = categoryArrayList.get(position)
-        var imageview = holder.binding.root.findViewById<ImageView>(R.id.my_item_imageview)
+//        val datum: CATEGORY = categoryArrayList.get(position)
+//        var imageview = holder.binding.root.findViewById<ImageView>(R.id.my_item_imageview)
         // imageview.load(datum.img)
 
 //        Glide.with(imageview.context)
@@ -50,7 +54,10 @@ class CategoryRecyclerViewAdapter :
 //            .placeholder(R.drawable.ic_launcher_background)
 //            .into(imageview)
 
-        holder.bind(categoryArrayList[position])
+      //  holder.bind(categoryArrayList[position])
+
+        (categoryArrayList .value?.items?.get(position) ?: null)?.let { holder.bind(it) }
+
     }
 
     class MyViewHolder(val binding: FragmentCategoryListItemBinding) :

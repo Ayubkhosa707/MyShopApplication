@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.ayub.khosa.myshopapplication.R
 import com.ayub.khosa.myshopapplication.databinding.FragmentProductListItemBinding
+import com.ayub.khosa.myshopapplication.model.ListPRODUCTS
 import com.ayub.khosa.myshopapplication.model.PRODUCT
-import com.bumptech.glide.Glide
 
 class ProductRecyclerViewAdapter :
     RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder>() {
-    var productArrayList = ArrayList<PRODUCT>()
-
-    fun setDataList(data: ArrayList<PRODUCT>) {
+    var productArrayList =MutableLiveData<ListPRODUCTS>()
+    fun setDataList(data: MutableLiveData<ListPRODUCTS>) {
         this.productArrayList = data
     }
 
@@ -37,12 +37,16 @@ class ProductRecyclerViewAdapter :
         return MyViewHolder(binding)
     }
 
-    override fun getItemCount() = productArrayList.size
+    override fun getItemCount(): Int  {
+
+            return productArrayList.value?.items?.size ?: 0
+
+    }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val datum: PRODUCT = productArrayList.get(position)
-        var imageview = holder.binding.root.findViewById<ImageView>(R.id.my_item_imageview)
+//        val datum: PRODUCT = productArrayList.get(position)
+//        var imageview = holder.binding.root.findViewById<ImageView>(R.id.my_item_imageview)
         // imageview.load(datum.img)
 
 //        Glide.with(imageview.context)
@@ -50,7 +54,8 @@ class ProductRecyclerViewAdapter :
 //            .placeholder(R.drawable.ic_launcher_background)
 //            .into(imageview)
 
-        holder.bind(productArrayList[position])
+
+        (productArrayList .value?.items?.get(position) ?: null)?.let { holder.bind(it) }
     }
 
     class MyViewHolder(val binding: FragmentProductListItemBinding) :
@@ -64,3 +69,5 @@ class ProductRecyclerViewAdapter :
 
 
 }
+
+

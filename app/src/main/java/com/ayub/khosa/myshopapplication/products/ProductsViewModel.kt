@@ -3,26 +3,32 @@ package com.ayub.khosa.myshopapplication.products
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ayub.khosa.myshopapplication.model.ListPRODUCTS
-import com.ayub.khosa.myshopapplication.model.PRODUCT
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
+import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
 class ProductsViewModel : ViewModel() {
 
     var listPRODUCTSData: MutableLiveData<ListPRODUCTS> = MutableLiveData()
     var productRecyclerViewAdapter: ProductRecyclerViewAdapter = ProductRecyclerViewAdapter()
 
+
+    fun getProducts() : MutableLiveData<ListPRODUCTS> {
+        listPRODUCTSData = MainActivityRepository.getlistPRODUCTApiCall()
+        return listPRODUCTSData
+    }
     init {
-        var product = PRODUCT("name", "img", "category", "description", "0")
-        val data = kotlin.collections.ArrayList<PRODUCT>()
-        data.add(product)
-        setAdapterData(data)
+        PrintLogs.printD("ProductsViewModel  init")
+         setAdapterData(getProducts())
     }
 
     fun getAdapter(): ProductRecyclerViewAdapter {
         return productRecyclerViewAdapter
     }
 
-    fun setAdapterData(data: ArrayList<PRODUCT>) {
-        productRecyclerViewAdapter.setDataList(data)
+    fun setAdapterData(data: MutableLiveData<ListPRODUCTS>?) {
+        if (data != null) {
+            productRecyclerViewAdapter.setDataList(data)
+        }
         productRecyclerViewAdapter.notifyDataSetChanged()
     }
 
