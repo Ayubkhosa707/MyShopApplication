@@ -3,7 +3,6 @@ package com.ayub.khosa.myshopapplication.products
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +38,7 @@ class ProductRecyclerViewAdapter :
 
     override fun getItemCount(): Int  {
 
-            return productArrayList.value?.items?.size ?: 0
+        return productArrayList.value?.products?.size ?: 0
 
     }
 
@@ -55,7 +54,7 @@ class ProductRecyclerViewAdapter :
 //            .into(imageview)
 
 
-        (productArrayList .value?.items?.get(position) ?: null)?.let { holder.bind(it) }
+        (productArrayList.value?.products?.get(position) ?: null)?.let { holder.bind(it) }
     }
 
     class MyViewHolder(val binding: FragmentProductListItemBinding) :

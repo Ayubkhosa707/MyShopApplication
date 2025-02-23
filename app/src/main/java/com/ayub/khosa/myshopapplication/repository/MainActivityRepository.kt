@@ -2,8 +2,10 @@ package com.ayub.khosa.myshopapplication.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.ayub.khosa.myshopapplication.api.APIResponce
+import com.ayub.khosa.myshopapplication.api.APIResponceListCATEGORYS
+import com.ayub.khosa.myshopapplication.api.APIResponceListPRODUCTS
+import com.ayub.khosa.myshopapplication.api.APIResponceUser
 import com.ayub.khosa.myshopapplication.api.ApiClient
-import com.ayub.khosa.myshopapplication.api.ResponceUser
 import com.ayub.khosa.myshopapplication.model.CATEGORY
 import com.ayub.khosa.myshopapplication.model.ListCATEGORYS
 import com.ayub.khosa.myshopapplication.model.ListPRODUCTS
@@ -19,54 +21,61 @@ object MainActivityRepository {
     private var listPRODUCTSData: MutableLiveData<ListPRODUCTS> = MutableLiveData<ListPRODUCTS>()
 
     private var listCATEGORYSData: MutableLiveData<ListCATEGORYS> = MutableLiveData<ListCATEGORYS>()
-    private  var main_user: MutableLiveData<USER> = MutableLiveData<USER>()
-
+    private var main_user: MutableLiveData<USER> = MutableLiveData<USER>()
 
     fun getlistPRODUCTApiCall(): MutableLiveData<ListPRODUCTS> {
         PrintLogs.printD("MainActivityRepository  getlistPRODUCTApiCall")
-//        val call = ApiClient.apiService.is_logged_in("is_logged_in")
-//        call.enqueue(object : Callback<APIResponce> {
-//            override fun onResponse(
-//                call: Call<APIResponce>,
-//                response: Response<APIResponce>
-//            ) {
-//                if (response.body()?.response.equals("Success")) {
-//                    PrintLogs.printD(" onResponse Success :  " + response.body())
-//
-//                    PrintLogs.printD(" onResponse Success  data :  " + response.body()?.data)
-//                    PrintLogs.printD(" onResponse Success  raw :  " + response.raw())
-//
-//
-//                } else {
-//                    PrintLogs.printD(" onResponse .......  .... .....  " + response.body())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<APIResponce>, t: Throwable) {
-//                PrintLogs.printD("onFailure: ${t.message}")
-//            }
-//        })
-        val data = kotlin.collections.ArrayList<PRODUCT>()
-        var product = PRODUCT(
-            "Guess 1875",
-            "https://ayubkhosa.com/ecommerce-website-master/images/watch1.jpg",
-            "Watch",
-            "watch here is",
-            "3000"
-        )
-        data.add(product)
-        product = PRODUCT(
-            "Airpods",
-            "https://ayubkhosa.com/ecommerce-website-master/images/sp3.jpg",
-            "Headphones",
-            "new headphone 4",
-            "1500"
-        )
-        data.add(product)
-        var lisproduct: ListPRODUCTS = ListPRODUCTS(data)
+        val call = ApiClient.apiService.get_ListPRODUCTS("ListPRODUCTS")
+        call.enqueue(object : Callback<APIResponceListPRODUCTS> {
+            override fun onResponse(
+                call: Call<APIResponceListPRODUCTS>,
+                response: Response<APIResponceListPRODUCTS>
+            ) {
+                if (response.body()?.response.equals("Success")) {
+                    PrintLogs.printD(" onResponse Success :  " + response.body())
+                    PrintLogs.printD(" onResponse Success  data :  " + response.body()?.data)
 
 
-        listPRODUCTSData = MutableLiveData<ListPRODUCTS>(lisproduct)
+                    response.body()?.data?.let {
+
+                        val data = kotlin.collections.ArrayList<PRODUCT>()
+
+                        it.products.forEach {
+                            PrintLogs.printD(" name of product : " + it.name)
+
+
+                            var product =
+                                PRODUCT(
+                                    it.name,
+                                    "https://ayubkhosa.com/ecommerce-website-master/" + it.img,
+                                    it.category,
+                                    it.description,
+                                    it.price,
+                                    it.id
+                                )
+
+                            data.add(product)
+                        }
+
+                        PrintLogs.printD(" data.size ----  " + data.size)
+                        var listproduct: ListPRODUCTS = ListPRODUCTS(data)
+                        PrintLogs.printD(" listproduct.products.size ----  " + listproduct.products.size)
+                        listPRODUCTSData = MutableLiveData<ListPRODUCTS>(listproduct)
+                        PrintLogs.printD(" listPRODUCTSData.value.products.size ----  " + listPRODUCTSData.value?.products?.size)
+
+                    }
+
+                } else {
+                    PrintLogs.printD(" onResponse .......  .... .....  " + response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<APIResponceListPRODUCTS>, t: Throwable) {
+                PrintLogs.printD("onFailure: ${t.message}")
+            }
+        })
+
+
 
 
         PrintLogs.printD("MainActivityRepository  getlistPRODUCTApiCall")
@@ -74,19 +83,60 @@ object MainActivityRepository {
     }
 
     fun getlistCATEGORYApiCall(): MutableLiveData<ListCATEGORYS> {
-        listCATEGORYSData = MutableLiveData<ListCATEGORYS>()
+        PrintLogs.printD("***** getlistCATEGORYApiCall Start ****")
         PrintLogs.printD("MainActivityRepository  getlistCATEGORYApiCall")
 
+        val call = ApiClient.apiService.get_ListCATEGORYS("ListCATEGORYS")
 
-        var category =
-            CATEGORY("Shoes", "https://ayubkhosa.com/ecommerce-website-master/images/shoes.jpg")
-        val data = kotlin.collections.ArrayList<CATEGORY>()
-        data.add(category)
-        var listcategorys: ListCATEGORYS = ListCATEGORYS(data)
+        call.enqueue(object : Callback<APIResponceListCATEGORYS> {
+            override fun onResponse(
+                call: Call<APIResponceListCATEGORYS>,
+                response: Response<APIResponceListCATEGORYS>
+            ) {
+                if (response.body()?.response.equals("Success")) {
+                    PrintLogs.printD(" onResponse Success :  " + response.body())
+                    PrintLogs.printD(" onResponse Success  data :  " + response.body()?.data)
 
-        listCATEGORYSData = MutableLiveData<ListCATEGORYS>(listcategorys)
+
+                    response.body()?.data?.let {
+                        val data = kotlin.collections.ArrayList<CATEGORY>()
+
+                        it.categorys.forEach {
+
+                            PrintLogs.printD(" name of category : " + it.name)
 
 
+                            var category = CATEGORY(
+                                it.name,
+                                "https://ayubkhosa.com/ecommerce-website-master/" + it.img,
+                                it.id
+                            )
+
+                            data.add(category)
+                        }
+
+                        PrintLogs.printD(" data.size ----  " + data.size)
+                        var listcategorys = ListCATEGORYS(data)
+                        PrintLogs.printD(" listcategorys.categorys.size ----  " + listcategorys.categorys.size)
+
+                        listCATEGORYSData = MutableLiveData<ListCATEGORYS>(listcategorys)
+
+
+                        PrintLogs.printD(" listCATEGORYSData.value.categorys.size ---->  " + listCATEGORYSData.value?.categorys?.size)
+
+                    }
+
+                } else {
+                    PrintLogs.printD(" onResponse .......  .... .....  " + response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<APIResponceListCATEGORYS>, t: Throwable) {
+                PrintLogs.printD("onFailure: ${t.message}")
+            }
+        })
+
+        PrintLogs.printD("***** getlistCATEGORYApiCall End ****  " + listCATEGORYSData.value?.categorys?.size)
         return listCATEGORYSData
     }
 
@@ -104,10 +154,10 @@ object MainActivityRepository {
 //            retrofitClient.getLoginUser("ayub.khosa@gmail.com", "ayub")
 
         val call = ApiClient.apiService.getLogin("btn-login", "ayub.khosa@gmail.com", "ayub")
-        call.enqueue(object : Callback<ResponceUser> {
+        call.enqueue(object : Callback<APIResponceUser> {
             override fun onResponse(
-                call: Call<ResponceUser>,
-                response: Response<ResponceUser>
+                call: Call<APIResponceUser>,
+                response: Response<APIResponceUser>
             ) {
                 if (response.body()?.response.equals("Success")) {
                     PrintLogs.printD(" onResponse Success :  " + response.body())
@@ -131,7 +181,7 @@ object MainActivityRepository {
                 }
             }
 
-            override fun onFailure(call: Call<ResponceUser>, t: Throwable) {
+            override fun onFailure(call: Call<APIResponceUser>, t: Throwable) {
                 PrintLogs.printD("onFailure: ${t.message}")
             }
         })
@@ -139,7 +189,7 @@ object MainActivityRepository {
 
     }
 
-      fun is_logged_in() {
+    fun is_logged_in() {
 
         // var retrofitClient: RetrofitClient = RetrofitClient()
 //        val call: Call<RetrofitResponce> =

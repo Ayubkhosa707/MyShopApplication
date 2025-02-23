@@ -13,12 +13,24 @@ interface ApiService {
         @Field("btn-login") btn_login: String,
         @Field("lemail") email: String,
         @Field("lpassword") password: String
-    ): Call<ResponceUser>
+    ): Call<APIResponceUser>
 
     @FormUrlEncoded
     @POST("ecommerce-website-master/authmobile.php")
     fun is_logged_in(
         @Field("is_logged_in") is_logged_in: String
     ): Call<APIResponce>
+
+    @FormUrlEncoded
+    @POST("ecommerce-website-master/authmobile.php")
+    fun get_ListPRODUCTS(
+        @Field("ListPRODUCTS") listPRODUCTS: String
+    ): Call<APIResponceListPRODUCTS>
+
+    @FormUrlEncoded
+    @POST("ecommerce-website-master/authmobile.php")
+    fun get_ListCATEGORYS(
+        @Field("ListCATEGORYS") listCATEGORYS: String
+    ): Call<APIResponceListCATEGORYS>
 
 }

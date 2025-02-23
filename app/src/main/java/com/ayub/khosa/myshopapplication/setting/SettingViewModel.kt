@@ -2,15 +2,9 @@ package com.ayub.khosa.myshopapplication.setting
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ayub.khosa.myshopapplication.api.APIResponce
-import com.ayub.khosa.myshopapplication.api.ApiClient
-import com.ayub.khosa.myshopapplication.api.ResponceUser
 import com.ayub.khosa.myshopapplication.model.USER
 import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SettingViewModel : ViewModel() {
 

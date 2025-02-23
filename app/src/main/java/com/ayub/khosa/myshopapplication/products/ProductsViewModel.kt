@@ -18,8 +18,18 @@ class ProductsViewModel : ViewModel() {
     }
     init {
         PrintLogs.printD("ProductsViewModel  init")
-         setAdapterData(getProducts())
+        listPRODUCTSData = getProducts()
+        setAdapterData(listPRODUCTSData)
     }
+
+    fun getProductsViewModelData() {
+        PrintLogs.printD("getProductsViewModelData ")
+        listPRODUCTSData = getProducts()
+        setAdapterData(listPRODUCTSData)
+
+
+    }
+
 
     fun getAdapter(): ProductRecyclerViewAdapter {
         return productRecyclerViewAdapter

@@ -71,4 +71,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-scalars:2.1.0")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
+    implementation("com.squareup.okhttp3:okhttp-urlconnection:3.8.1")
+
+  //  implementation ("com.github.franmontiel:PersistentCookieJar:v1.0.1")
 }

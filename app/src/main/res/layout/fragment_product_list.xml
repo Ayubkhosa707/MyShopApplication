@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:background="#11cc"
             android:shadowColor="#ffcc00"
+            app:onClickLogin="@{()->viewModel.getProductsViewModelData()}"
             android:text="Product List"
             android:textColor="#fa2bff"
             android:textSize="40sp" />

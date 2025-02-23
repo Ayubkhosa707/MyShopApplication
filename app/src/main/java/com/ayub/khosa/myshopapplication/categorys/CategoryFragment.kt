@@ -7,14 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat.VERTICAL
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ayub.khosa.myshopapplication.R
 import com.ayub.khosa.myshopapplication.databinding.FragmentCategoryListBinding
-import com.ayub.khosa.myshopapplication.model.CATEGORY
-import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
 class CategoryFragment : Fragment() {
     companion object {
@@ -49,6 +44,7 @@ class CategoryFragment : Fragment() {
 //        data.add(category)
 //
 //        viewModel.setAdapterData(data)
+
         this.binding.lifecycleOwner = this
         binding.viewModel = viewModel
         return binding.root

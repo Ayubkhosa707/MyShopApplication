@@ -13,11 +13,12 @@ class PRODUCT() : BaseObservable(), Serializable {
         img: String,
         category: String,
         description: String,
-        price: String
+        price: String,
+        id: String
     ) : this() {
         this.name = name
         this.img = img
-        this.id = 0
+        this.id = id
         this.description = description
         this.category = category
         this.price = price
@@ -57,8 +58,8 @@ class PRODUCT() : BaseObservable(), Serializable {
 
 
     @androidx.databinding.Bindable
-    var id: Int = 0
-        set(id: Int) {
+    var id: String = "0"
+        set(id: String) {
             field = id
             PrintLogs.printD("PRODUCT set  id  ----- " + id)
             notifyPropertyChanged(BR.id)

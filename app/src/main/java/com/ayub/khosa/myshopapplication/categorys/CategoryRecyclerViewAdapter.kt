@@ -3,7 +3,6 @@ package com.ayub.khosa.myshopapplication.categorys
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,6 @@ import com.ayub.khosa.myshopapplication.R
 import com.ayub.khosa.myshopapplication.databinding.FragmentCategoryListItemBinding
 import com.ayub.khosa.myshopapplication.model.CATEGORY
 import com.ayub.khosa.myshopapplication.model.ListCATEGORYS
-import com.ayub.khosa.myshopapplication.model.ListPRODUCTS
 
 class CategoryRecyclerViewAdapter :
     RecyclerView.Adapter<CategoryRecyclerViewAdapter.MyViewHolder>() {
@@ -40,7 +38,7 @@ class CategoryRecyclerViewAdapter :
 
     override fun getItemCount(): Int  {
 
-        return categoryArrayList.value?.items?.size ?: 0
+        return categoryArrayList.value?.categorys?.size ?: 0
 
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -56,7 +54,7 @@ class CategoryRecyclerViewAdapter :
 
       //  holder.bind(categoryArrayList[position])
 
-        (categoryArrayList .value?.items?.get(position) ?: null)?.let { holder.bind(it) }
+        (categoryArrayList.value?.categorys?.get(position) ?: null)?.let { holder.bind(it) }
 
     }
 

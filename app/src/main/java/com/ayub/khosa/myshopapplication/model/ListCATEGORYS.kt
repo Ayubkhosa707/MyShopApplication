@@ -1,3 +1,3 @@
 package com.ayub.khosa.myshopapplication.model
 
-class ListCATEGORYS(val items: ArrayList<CATEGORY>)
+class ListCATEGORYS(val categorys: ArrayList<CATEGORY>)

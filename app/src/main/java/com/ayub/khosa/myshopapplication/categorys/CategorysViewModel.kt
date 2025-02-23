@@ -19,7 +19,8 @@ class CategorysViewModel : ViewModel() {
     init {
 
         PrintLogs.printD("CategorysViewModel  init")
-        setAdapterData(getcatgorys())
+        listCategorysData = getcatgorys()
+        setAdapterData(listCategorysData)
     }
 
     fun getAdapter(): CategoryRecyclerViewAdapter {
@@ -33,5 +34,14 @@ class CategorysViewModel : ViewModel() {
 
     fun getRecyclerListDataObserver(): MutableLiveData<ListCATEGORYS> {
         return listCategorysData
+    }
+
+
+    fun getCategorysViewModelData() {
+        PrintLogs.printD("getCategorysViewModelData ")
+        listCategorysData = getcatgorys()
+        setAdapterData(listCategorysData)
+
+
     }
 }
