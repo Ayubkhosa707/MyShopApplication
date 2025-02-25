@@ -4,9 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.ayub.khosa.myshopapplication.api.ApiService
 import com.ayub.khosa.myshopapplication.databinding.FragmentSettingBinding
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
+import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
+import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
 class SettingFragment : Fragment() {
 
@@ -25,17 +31,34 @@ class SettingFragment : Fragment() {
         _binding = FragmentSettingBinding.inflate(
             inflater, container, false
         )
-        //  return inflater.inflate(R.layout.fragment_setting, container, false)
-        viewModel =
-            ViewModelProvider(this).get<SettingViewModel>(SettingViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            MyViewModelFactory(MainActivityRepository(ApiService.apiService))
+        ).get(
+            SettingViewModel::class.java
+        )
+        viewModel.user.observe(viewLifecycleOwner, Observer {
 
-//        viewModel.user.value?.first_name = "AYUB"
-//        viewModel.user.value?.last_name = "KHOSA"
+            PrintLogs.printD("onCreateView SettingFragment user_id : " + it.user_id)
 
 
+        })
+        viewModel._is_busy.observe(viewLifecycleOwner, Observer {
 
+            if (it) {
+                binding.linearLayoutBusybox.visibility = View.VISIBLE
+            } else {
+                binding.linearLayoutBusybox.visibility = View.GONE
+            }
 
+        })
 
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(this.context, "Error " + it, Toast.LENGTH_SHORT).show()
+
+        })
+
+        viewModel.onsetting_user_loginClicked()
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         return binding.root

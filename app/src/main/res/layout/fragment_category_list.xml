@@ -21,17 +21,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#11cc"
-            app:onClickLogin="@{()->viewModel.getCategorysViewModelData()}"
+            app:onClickLogin="@{()->viewModel.getAllCategorys()}"
             android:shadowColor="#ffcc00"
             android:text="Category List"
             android:textColor="#fa2bff"
             android:textSize="40sp" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout_busybox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            app:setAdapter='@{viewModel.getAdapter()}' />
+            android:gravity="center" />
     </LinearLayout>
 </layout>

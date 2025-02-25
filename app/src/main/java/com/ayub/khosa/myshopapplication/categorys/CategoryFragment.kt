@@ -4,12 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat.VERTICAL
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ayub.khosa.myshopapplication.api.ApiService
 import com.ayub.khosa.myshopapplication.databinding.FragmentCategoryListBinding
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
+import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
+import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
 class CategoryFragment : Fragment() {
     companion object {
@@ -34,19 +40,39 @@ class CategoryFragment : Fragment() {
             addItemDecoration(decoration)
         }
 
-        val viewModel =
-            ViewModelProvider(this).get<CategorysViewModel>(CategorysViewModel::class.java)
+        val viewModel = ViewModelProvider(
+            this,
+            MyViewModelFactory(MainActivityRepository(ApiService.apiService))
+        ).get(
+            CategorysViewModel::class.java
+        )
 
+        val adapter = CategoryRecyclerViewAdapter()
 
-//        var category =
-//            CATEGORY("Shoes", "https://ayubkhosa.com/ecommerce-website-master/images/shoes.jpg")
-//        val data = kotlin.collections.ArrayList<CATEGORY>()
-//        data.add(category)
-//
-//        viewModel.setAdapterData(data)
+        viewModel.categorysItems.observe(viewLifecycleOwner, Observer {
 
+            PrintLogs.printD("onCreateView CategoryFragment size:  " + it.categorys.size)
+
+            adapter.setDataList(it)
+        })
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+
+            Toast.makeText(this.context, "Error " + it, Toast.LENGTH_SHORT).show()
+        })
+        viewModel._is_busy.observe(viewLifecycleOwner, Observer {
+
+            if (it) {
+                binding.linearLayoutBusybox.visibility = View.VISIBLE
+            } else {
+                binding.linearLayoutBusybox.visibility = View.GONE
+            }
+
+        })
+        viewModel.getAllCategorys()
+        binding.recyclerView.adapter = adapter
         this.binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
         return binding.root
     }
 

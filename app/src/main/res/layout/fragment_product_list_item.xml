@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="aaa"
-            android:text="@{model.name}"
+            android:text="@{` name: `   +model.name +` id : `   +model.id}"
             android:textSize="30sp" />
 
         <TextView
@@ -56,8 +56,9 @@
 
         <ImageView
             android:id="@+id/my_item_imageview"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
             android:layout_gravity="center"
             app:load_image="@{model.img}" />
 

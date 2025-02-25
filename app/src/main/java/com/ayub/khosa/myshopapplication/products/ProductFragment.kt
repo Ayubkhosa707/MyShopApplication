@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat.VERTICAL
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ayub.khosa.myshopapplication.R
-import com.ayub.khosa.myshopapplication.categorys.CategoryFragment
+import com.ayub.khosa.myshopapplication.api.ApiService
 import com.ayub.khosa.myshopapplication.databinding.FragmentProductListBinding
-import com.ayub.khosa.myshopapplication.model.PRODUCT
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
+import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
 class ProductFragment : Fragment() {
@@ -37,20 +38,36 @@ class ProductFragment : Fragment() {
             addItemDecoration(decoration)
         }
 
-        val viewModel =
-            ViewModelProvider(this).get<ProductsViewModel>(ProductsViewModel::class.java)
 
-//        var product = PRODUCT(
-//            "Guess 1875",
-//            "https://ayubkhosa.com/ecommerce-website-master/images//watch1.jpg",
-//            "Watch",
-//            "watch here is",
-//            "3000"
-//        )
-//        val data = kotlin.collections.ArrayList<PRODUCT>()
-//        data.add(product)
+        val viewModel = ViewModelProvider(
+            this,
+            MyViewModelFactory(MainActivityRepository(ApiService.apiService))
+        ).get(ProductsViewModel::class.java)
+        val adapter: ProductRecyclerViewAdapter = ProductRecyclerViewAdapter()
 
-   //     viewModel.setAdapterData(data)
+
+        viewModel.productsItems.observe(viewLifecycleOwner, Observer {
+
+            PrintLogs.printD("onCreateView ProductFragment size : " + it.products.size)
+
+            adapter.setDataList(it)
+
+        })
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(this.context, "Error " + it, Toast.LENGTH_SHORT).show()
+
+        })
+        viewModel._is_busy.observe(viewLifecycleOwner, Observer {
+
+            if (it) {
+                binding.linearLayoutBusybox.visibility = View.VISIBLE
+            } else {
+                binding.linearLayoutBusybox.visibility = View.GONE
+            }
+
+        })
+        viewModel.getAllProducts()
+        binding.recyclerView.adapter = adapter
         this.binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
         return binding.root

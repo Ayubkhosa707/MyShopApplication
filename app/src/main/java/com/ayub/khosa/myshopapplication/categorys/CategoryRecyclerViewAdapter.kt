@@ -14,8 +14,9 @@ import com.ayub.khosa.myshopapplication.model.ListCATEGORYS
 class CategoryRecyclerViewAdapter :
     RecyclerView.Adapter<CategoryRecyclerViewAdapter.MyViewHolder>() {
     var categoryArrayList =MutableLiveData<ListCATEGORYS>()
-    fun setDataList(data: MutableLiveData<ListCATEGORYS>) {
-        this.categoryArrayList = data
+    fun setDataList(data: ListCATEGORYS) {
+        this.categoryArrayList = MutableLiveData<ListCATEGORYS>(data)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

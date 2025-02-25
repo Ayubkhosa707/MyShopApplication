@@ -13,9 +13,13 @@ import com.ayub.khosa.myshopapplication.model.PRODUCT
 
 class ProductRecyclerViewAdapter :
     RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder>() {
+
     var productArrayList =MutableLiveData<ListPRODUCTS>()
-    fun setDataList(data: MutableLiveData<ListPRODUCTS>) {
-        this.productArrayList = data
+
+    fun setDataList(data: ListPRODUCTS) {
+        this.productArrayList = MutableLiveData<ListPRODUCTS>(data)
+
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
@@ -56,6 +60,7 @@ class ProductRecyclerViewAdapter :
 
         (productArrayList.value?.products?.get(position) ?: null)?.let { holder.bind(it) }
     }
+
 
     class MyViewHolder(val binding: FragmentProductListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
