@@ -8,9 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.ayub.khosa.myshopapplication.api.ApiService
 import com.ayub.khosa.myshopapplication.databinding.FragmentSettingBinding
-import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
@@ -33,7 +31,7 @@ class SettingFragment : Fragment() {
         )
         viewModel = ViewModelProvider(
             this,
-            MyViewModelFactory(MainActivityRepository(ApiService.apiService))
+            MyViewModelFactory()
         ).get(
             SettingViewModel::class.java
         )

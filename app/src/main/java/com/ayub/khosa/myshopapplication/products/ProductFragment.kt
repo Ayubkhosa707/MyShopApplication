@@ -11,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ayub.khosa.myshopapplication.api.ApiService
 import com.ayub.khosa.myshopapplication.databinding.FragmentProductListBinding
-import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
@@ -41,7 +39,7 @@ class ProductFragment : Fragment() {
 
         val viewModel = ViewModelProvider(
             this,
-            MyViewModelFactory(MainActivityRepository(ApiService.apiService))
+            MyViewModelFactory()
         ).get(ProductsViewModel::class.java)
         val adapter: ProductRecyclerViewAdapter = ProductRecyclerViewAdapter()
 

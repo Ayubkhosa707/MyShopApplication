@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -17,15 +18,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ayub.khosa.myshopapplication.api.APIResponceUser
-import com.ayub.khosa.myshopapplication.api.ApiService
+import com.ayub.khosa.myshopapplication.api.RetrofitBuilder
 import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 import com.google.android.material.navigation.NavigationView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -104,52 +101,38 @@ class MainActivity : AppCompatActivity() {
         PrintLogs.printD("************* MainActivity getLoginUser *****************************")
 
         Toast.makeText(this.applicationContext," MainActivity getLoginUser api call ",Toast.LENGTH_SHORT)
-
-        val response = MainActivityRepository(ApiService.apiService).getLoginUser(
+        lifecycleScope.launch {
+            val response = MainActivityRepository(RetrofitBuilder.apiService).getLoginUser(
             "ayub.khosa@gmail.com",
             "ayub"
         )
-        response.enqueue(object : Callback<APIResponceUser> {
-            override fun onResponse(
-                call: Call<APIResponceUser>,
-                response: Response<APIResponceUser>
-            ) {
 
-                if (response.body()?.response.equals("Success")) {
-                    PrintLogs.printD(" onResponse Success :  " + response.body())
-                    PrintLogs.printD(" onResponse Success data email :  " + response.body()?.data?.email_id)
-                    PrintLogs.printD(" onResponse Success data first_name :  " + response.body()?.data?.first_name)
-                    PrintLogs.printD(" onResponse Success data last_name :  " + response.body()?.data?.last_name)
-                    PrintLogs.printD(" onResponse Success data user_id :  " + response.body()?.data?.user_id)
-                    PrintLogs.printD(" onResponse Success data password :  " + response.body()?.data?.password)
+            if (response.response == "Success") {
+                PrintLogs.printD(" onResponse Success :  " + response.data)
+                PrintLogs.printD(" onResponse Success data email :  " + response.data.email_id)
+                PrintLogs.printD(" onResponse Success data first_name :  " + response.data.first_name)
+                PrintLogs.printD(" onResponse Success data last_name :  " + response.data.last_name)
+                PrintLogs.printD(" onResponse Success data user_id :  " + response.data.user_id)
+                PrintLogs.printD(" onResponse Success data password :  " + response.data.password)
 
-                    response.body()?.data?.let {
-//                        nav_header_title.text=it.email_id
-//                        nav_header_subtitle.text=""+it.user_id
+                response.data.let {
 
-                        val hView = navigationView.getHeaderView(0)
-                        val nav_header_title =
-                            hView.findViewById<View>(R.id.nav_header_title) as TextView
-                        val nav_header_subtitle =
-                            hView.findViewById<View>(R.id.nav_header_subtitle) as TextView
-                        nav_header_title.text = it.email_id
-                        nav_header_subtitle.text = "User id:" + it.user_id
+                    val hView = navigationView.getHeaderView(0)
+                    val nav_header_title =
+                        hView.findViewById<View>(R.id.nav_header_title) as TextView
+                    val nav_header_subtitle =
+                        hView.findViewById<View>(R.id.nav_header_subtitle) as TextView
+                    nav_header_title.text = it.email_id
+                    nav_header_subtitle.text = "User id:" + it.user_id
 
-                    }
-
-                } else {
-
-                    PrintLogs.printD(" onResponse .......  .... .....  " + response.body())
                 }
-                linearLayout_busybox.visibility = View.GONE
+
+                }
+
+            linearLayout_busybox.visibility = View.GONE
             }
 
-            override fun onFailure(call: Call<APIResponceUser>, t: Throwable) {
-                PrintLogs.printD("onFailure: ${t.message}")
-                linearLayout_busybox.visibility = View.GONE
-            }
 
-        })
     }
 
     override fun onBackPressed() {
@@ -163,5 +146,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /// /// here is my first commit
 }
