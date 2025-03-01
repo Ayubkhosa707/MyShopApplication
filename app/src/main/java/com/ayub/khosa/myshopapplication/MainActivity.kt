@@ -63,12 +63,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.categoryFragment, R.id.productFragment, R.id.settingFragment
             ), drawerLayout
         )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
         navigationView.setupWithNavController(navController)
-
-
-
 
         getLoginUser()
     }
@@ -97,40 +93,51 @@ class MainActivity : AppCompatActivity() {
 
     private fun getLoginUser() {
 
+        PrintLogs.printD(" MainActivity getLoginUser  getLoginUser ")
         linearLayout_busybox.visibility = View.VISIBLE
         PrintLogs.printD("************* MainActivity getLoginUser *****************************")
 
-        Toast.makeText(this.applicationContext," MainActivity getLoginUser api call ",Toast.LENGTH_SHORT)
-        lifecycleScope.launch {
-            val response = MainActivityRepository(RetrofitBuilder.apiService).getLoginUser(
-            "ayub.khosa@gmail.com",
-            "ayub"
+        Toast.makeText(
+            this.applicationContext,
+            " MainActivity getLoginUser api call ",
+            Toast.LENGTH_SHORT
         )
+        lifecycleScope.launch {
+            try {
+                PrintLogs.printD(" lifecycleScope.launch  ok ")
+                val response = MainActivityRepository(RetrofitBuilder.apiService).getLoginUser(
+                    "ayub.khosa@gmail.com",
+                    "ayub"
+                )
 
-            if (response.response == "Success") {
-                PrintLogs.printD(" onResponse Success :  " + response.data)
-                PrintLogs.printD(" onResponse Success data email :  " + response.data.email_id)
-                PrintLogs.printD(" onResponse Success data first_name :  " + response.data.first_name)
-                PrintLogs.printD(" onResponse Success data last_name :  " + response.data.last_name)
-                PrintLogs.printD(" onResponse Success data user_id :  " + response.data.user_id)
-                PrintLogs.printD(" onResponse Success data password :  " + response.data.password)
+                if (response.response == "Success") {
+                    PrintLogs.printD(" onResponse Success :  " + response.data)
+                    PrintLogs.printD(" onResponse Success data email :  " + response.data.email_id)
+                    PrintLogs.printD(" onResponse Success data first_name :  " + response.data.first_name)
+                    PrintLogs.printD(" onResponse Success data last_name :  " + response.data.last_name)
+                    PrintLogs.printD(" onResponse Success data user_id :  " + response.data.user_id)
+                    PrintLogs.printD(" onResponse Success data password :  " + response.data.password)
 
-                response.data.let {
+                    response.data.let {
 
-                    val hView = navigationView.getHeaderView(0)
-                    val nav_header_title =
-                        hView.findViewById<View>(R.id.nav_header_title) as TextView
-                    val nav_header_subtitle =
-                        hView.findViewById<View>(R.id.nav_header_subtitle) as TextView
-                    nav_header_title.text = it.email_id
-                    nav_header_subtitle.text = "User id:" + it.user_id
+                        val hView = navigationView.getHeaderView(0)
+                        val nav_header_title =
+                            hView.findViewById<View>(R.id.nav_header_title) as TextView
+                        val nav_header_subtitle =
+                            hView.findViewById<View>(R.id.nav_header_subtitle) as TextView
+                        nav_header_title.text = it.email_id
+                        nav_header_subtitle.text = "User id:" + it.user_id
+
+                    }
 
                 }
 
-                }
-
-            linearLayout_busybox.visibility = View.GONE
+            } catch (e: Exception) {
+                PrintLogs.printD(" Exception " + e.message)
             }
+
+        }
+        linearLayout_busybox.visibility = View.GONE
 
 
     }
