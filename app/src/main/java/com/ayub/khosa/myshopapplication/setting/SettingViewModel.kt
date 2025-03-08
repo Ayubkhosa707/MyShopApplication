@@ -3,8 +3,6 @@ package com.ayub.khosa.myshopapplication.setting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ayub.khosa.myshopapplication.api.RetrofitBuilder
-import com.ayub.khosa.myshopapplication.model.PRODUCT
 import com.ayub.khosa.myshopapplication.model.USER
 import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
@@ -52,7 +50,7 @@ class SettingViewModel(repository: MainActivityRepository) : ViewModel() {
 
 
                     user.postValue(response.data)
-                    addUserinDB(response.data)
+                    //  addUserinDB(response.data)
 
 
                 } else {

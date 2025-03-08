@@ -18,7 +18,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.ayub.khosa.myshopapplication.api.RetrofitBuilder
 import com.ayub.khosa.myshopapplication.model.USER
 import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
@@ -124,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
                     response.data.let {
 
-                        addUserinDB(it)
+                        //  addUserinDB(it)
                         val hView = navigationView.getHeaderView(0)
                         val nav_header_title =
                             hView.findViewById<View>(R.id.nav_header_title) as TextView
