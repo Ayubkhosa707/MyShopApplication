@@ -1,5 +1,6 @@
 package com.ayub.khosa.myshopapplication.categorys
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ayub.khosa.myshopapplication.databinding.FragmentCategoryListBinding
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
@@ -19,15 +21,17 @@ class CategoryFragment : Fragment() {
     companion object {
         fun newInstance() = CategoryFragment()
     }
-
     private var _binding: FragmentCategoryListBinding? = null
     private val binding get() = _binding!!
-
+    lateinit var viewModel: CategorysViewModel
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val repository: MainActivityRepository by lazy {
+            MainActivityRepository(this.context as Context)
+        }
         _binding = FragmentCategoryListBinding.inflate(
             inflater, container, false
         )
@@ -38,20 +42,34 @@ class CategoryFragment : Fragment() {
             addItemDecoration(decoration)
         }
 
-        val viewModel = ViewModelProvider(
-            this,
-            MyViewModelFactory()
-        ).get(
-            CategorysViewModel::class.java
-        )
 
-        val adapter = CategoryRecyclerViewAdapter()
+        viewModel = ViewModelProvider(
+            this,
+            MyViewModelFactory(repository)
+        ).get(CategorysViewModel::class.java)
+
+
+
 
         viewModel.categorysItems.observe(viewLifecycleOwner, Observer {
 
-            PrintLogs.printD("onCreateView CategoryFragment size:  " + it.categorys.size)
 
-            adapter.setDataList(it)
+            try {
+                Toast.makeText(
+                    this.context,
+                    " onCreateView categorysItems size " + it.categorys.size,
+                    Toast.LENGTH_SHORT
+                ).show()
+                PrintLogs.printD("onCreateView CategoryFragment size:  " + it.categorys.size)
+                val adapter = CategoryRecyclerViewAdapter(it)
+
+                binding.recyclerView.adapter = adapter
+
+
+            } catch (e: Exception) {
+                PrintLogs.printD("onCreateView  " + e.message)
+            }
+
         })
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
 
@@ -66,12 +84,18 @@ class CategoryFragment : Fragment() {
             }
 
         })
-        viewModel.getAllCategorys()
-        binding.recyclerView.adapter = adapter
+        viewModel.getAllCategoryDB()
+
         this.binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
     }
 
     override fun onDestroyView() {

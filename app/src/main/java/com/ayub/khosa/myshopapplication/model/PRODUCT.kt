@@ -1,77 +1,27 @@
 package com.ayub.khosa.myshopapplication.model
 
 import androidx.databinding.BaseObservable
-import com.ayub.khosa.myshopapplication.BR
-import com.ayub.khosa.myshopapplication.utils.PrintLogs
-import java.io.Serializable
+import androidx.room.Entity
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
 
-class PRODUCT() : BaseObservable(), Serializable {
-
-
-    constructor(
-        name: String,
-        img: String,
-        category: String,
-        description: String,
-        price: String,
-        id: String
-    ) : this() {
-        this.name = name
-        this.img = img
-        this.id = id
-        this.description = description
-        this.category = category
-        this.price = price
-    }
-
+@Entity(tableName = "products")
+data class PRODUCT(
+    @PrimaryKey(autoGenerate = true) var id: Long? = null,
     @androidx.databinding.Bindable
-    var name: String = "PRODUCT  name"
-        set(name: String) {
-            field = name
-            PrintLogs.printD("PRODUCT set  name" + name)
-            notifyPropertyChanged(BR.name)
-        }
-
+    @ColumnInfo(name = "product_id") var product_id: String,
     @androidx.databinding.Bindable
-    var img: String = "PRODUCT img"
-        set(img: String) {
-            field = img
-            PrintLogs.printD("PRODUCT set img" + img)
-            notifyPropertyChanged(BR.img)
-        }
-
+    @ColumnInfo(name = "name") var name: String,
     @androidx.databinding.Bindable
-    var category: String = "PRODUCT category"
-        set(category: String) {
-            field = category
-            PrintLogs.printD("PRODUCT set category" + category)
-            notifyPropertyChanged(BR.category)
-        }
-
+    @ColumnInfo(name = "price") var price: String,
     @androidx.databinding.Bindable
-    var description: String = "PRODUCT description"
-        set(description: String) {
-            field = description
-            PrintLogs.printD("PRODUCT set description" + description)
-            notifyPropertyChanged(BR.description)
-        }
-
-
+    @ColumnInfo(name = "img") var img: String,
     @androidx.databinding.Bindable
-    var id: String = "0"
-        set(id: String) {
-            field = id
-            PrintLogs.printD("PRODUCT set  id  ----- " + id)
-            notifyPropertyChanged(BR.id)
-        }
-
+    @ColumnInfo(name = "category") var category: String,
     @androidx.databinding.Bindable
-    var price: String = "0"
-        set(price: String) {
-            field = price
-            PrintLogs.printD("PRODUCT set  price  ----- " + price)
-            notifyPropertyChanged(BR.price)
-        }
+    @ColumnInfo(name = "description") var description: String
+) : BaseObservable() {
+
 
 
 }

@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView_setting"
+            android:id="@+id/textView_getAllProducts"
             style="@style/CardView.Dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,19 @@
             app:onClickLogin="@{()->viewModel.getAllProducts()}"
             android:text="Product List"
             android:textColor="#fa2bff"
-            android:textSize="40sp" />
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/textView_getAllProductsDB"
+            style="@style/CardView.Dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#11cc"
+            android:shadowColor="#ffcc00"
+            android:text="Product List Database"
+            android:textColor="#fa2bff"
+            android:textSize="25sp"
+            app:onClickLogin="@{()->viewModel.getAllProductsDB()}" />
 
         <LinearLayout
             android:id="@+id/linearLayout_busybox"

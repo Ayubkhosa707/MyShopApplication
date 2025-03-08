@@ -1,5 +1,9 @@
 package com.ayub.khosa.myshopapplication.api
 
+import com.ayub.khosa.myshopapplication.model.APIResponce
+import com.ayub.khosa.myshopapplication.model.APIResponceListCATEGORYS
+import com.ayub.khosa.myshopapplication.model.APIResponceListPRODUCTS
+import com.ayub.khosa.myshopapplication.model.APIResponceUser
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

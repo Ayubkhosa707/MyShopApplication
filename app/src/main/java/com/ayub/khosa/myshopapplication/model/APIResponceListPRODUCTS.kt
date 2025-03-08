@@ -1,6 +1,5 @@
-package com.ayub.khosa.myshopapplication.api
+package com.ayub.khosa.myshopapplication.model
 
-import com.ayub.khosa.myshopapplication.model.ListPRODUCTS
 import com.google.gson.annotations.SerializedName
 
 data class APIResponceListPRODUCTS(

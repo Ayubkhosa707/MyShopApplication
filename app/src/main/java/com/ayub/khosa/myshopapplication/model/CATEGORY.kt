@@ -1,42 +1,20 @@
 package com.ayub.khosa.myshopapplication.model
 
 import androidx.databinding.BaseObservable
-import com.ayub.khosa.myshopapplication.BR
-import com.ayub.khosa.myshopapplication.utils.PrintLogs
-import java.io.Serializable
-
-class CATEGORY() : BaseObservable(), Serializable {
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 
-    constructor(name: String, img: String, id: String) : this() {
-        this.name = name
-        this.img = img
-        this.id = id
-    }
-
+@Entity(tableName = "categorys")
+data class CATEGORY(
+    @PrimaryKey(autoGenerate = true) var id: Long? = null,
     @androidx.databinding.Bindable
-    var name: String = "CATEGORY  name"
-        set(name: String) {
-            field = name
-            PrintLogs.printD("CATEGORY set  name" + name)
-            notifyPropertyChanged(BR.name)
-        }
-
+    @ColumnInfo(name = "category_id") var category_id: String,
     @androidx.databinding.Bindable
-    var img: String = "CATEGORY img"
-        set(img: String) {
-            field = img
-            PrintLogs.printD("CATEGORY set img" + img)
-            notifyPropertyChanged(BR.img)
-        }
-
+    @ColumnInfo(name = "name") var name: String,
     @androidx.databinding.Bindable
-    var id: String = "0"
-        set(id: String) {
-            field = id
-            PrintLogs.printD("CATEGORY set  id  ----- " + id)
-            notifyPropertyChanged(BR.id)
-        }
-
+    @ColumnInfo(name = "img") var img: String
+) : BaseObservable() {
 
 }

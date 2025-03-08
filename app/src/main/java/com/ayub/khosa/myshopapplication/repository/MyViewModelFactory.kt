@@ -6,15 +6,16 @@ import com.ayub.khosa.myshopapplication.categorys.CategorysViewModel
 import com.ayub.khosa.myshopapplication.products.ProductsViewModel
 import com.ayub.khosa.myshopapplication.setting.SettingViewModel
 
-class MyViewModelFactory :
+class MyViewModelFactory(repository: MainActivityRepository) :
     ViewModelProvider.Factory {
+    val repository = repository
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(ProductsViewModel::class.java)) {
-            ProductsViewModel() as T
+            ProductsViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(CategorysViewModel::class.java)) {
-            CategorysViewModel() as T
+            CategorysViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(SettingViewModel::class.java)) {
-            SettingViewModel() as T
+            SettingViewModel(repository) as T
         } else {
             throw IllegalArgumentException("ViewModel Not Found")
         }

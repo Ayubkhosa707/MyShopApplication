@@ -1,5 +1,6 @@
 package com.ayub.khosa.myshopapplication.products
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ayub.khosa.myshopapplication.databinding.FragmentProductListBinding
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
@@ -20,6 +22,7 @@ class ProductFragment : Fragment() {
         fun newInstance() = ProductFragment()
     }
 
+
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -27,6 +30,10 @@ class ProductFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val repository: MainActivityRepository by lazy {
+            MainActivityRepository(this.context as Context)
+        }
+
         _binding = FragmentProductListBinding.inflate(
             inflater, container, false
         )
@@ -39,16 +46,23 @@ class ProductFragment : Fragment() {
 
         val viewModel = ViewModelProvider(
             this,
-            MyViewModelFactory()
+            MyViewModelFactory(repository)
         ).get(ProductsViewModel::class.java)
-        val adapter: ProductRecyclerViewAdapter = ProductRecyclerViewAdapter()
+
 
 
         viewModel.productsItems.observe(viewLifecycleOwner, Observer {
 
-            PrintLogs.printD("onCreateView ProductFragment size : " + it.products.size)
+            Toast.makeText(
+                this.context,
+                "productsItems size " + it.products.size,
+                Toast.LENGTH_SHORT
+            ).show()
 
-            adapter.setDataList(it)
+            PrintLogs.printD("onCreateView ProductFragment size : " + it.products.size)
+            val adapter: ProductRecyclerViewAdapter = ProductRecyclerViewAdapter(it)
+            binding.recyclerView.adapter = adapter
+            adapter.notifyDataSetChanged()
 
         })
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer {
@@ -64,8 +78,8 @@ class ProductFragment : Fragment() {
             }
 
         })
-        viewModel.getAllProducts()
-        binding.recyclerView.adapter = adapter
+        viewModel.getAllProductsDB()
+
         this.binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
         return binding.root

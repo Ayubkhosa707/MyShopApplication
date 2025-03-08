@@ -10,14 +10,12 @@ import com.ayub.khosa.myshopapplication.R
 import com.ayub.khosa.myshopapplication.databinding.FragmentCategoryListItemBinding
 import com.ayub.khosa.myshopapplication.model.CATEGORY
 import com.ayub.khosa.myshopapplication.model.ListCATEGORYS
+import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
-class CategoryRecyclerViewAdapter :
+class CategoryRecyclerViewAdapter(listCATEGORYS: ListCATEGORYS) :
     RecyclerView.Adapter<CategoryRecyclerViewAdapter.MyViewHolder>() {
-    var categoryArrayList =MutableLiveData<ListCATEGORYS>()
-    fun setDataList(data: ListCATEGORYS) {
-        this.categoryArrayList = MutableLiveData<ListCATEGORYS>(data)
-        notifyDataSetChanged()
-    }
+    var categoryArrayList = listCATEGORYS
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -39,7 +37,7 @@ class CategoryRecyclerViewAdapter :
 
     override fun getItemCount(): Int  {
 
-        return categoryArrayList.value?.categorys?.size ?: 0
+        return categoryArrayList.categorys.size!!
 
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -55,7 +53,7 @@ class CategoryRecyclerViewAdapter :
 
       //  holder.bind(categoryArrayList[position])
 
-        (categoryArrayList.value?.categorys?.get(position) ?: null)?.let { holder.bind(it) }
+        (categoryArrayList.categorys?.get(position) ?: null)?.let { holder.bind(it) }
 
     }
 
@@ -63,6 +61,8 @@ class CategoryRecyclerViewAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: CATEGORY) {
+
+            PrintLogs.printD(" bind  MyViewHolder ..CATEGORY ... " + data.name)
             binding.model = data
             binding.executePendingBindings()
         }

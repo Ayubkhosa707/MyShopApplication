@@ -27,7 +27,7 @@
             android:shadowColor="#ffcc00"
             android:text="Setting Fragment"
             android:textColor="#fa2bff"
-            android:textSize="40sp" />
+            android:textSize="25sp" />
 
         <LinearLayout
             android:id="@+id/linearLayout_busybox"
@@ -52,7 +52,7 @@
             android:layout_height="54dp"
             android:hint="first name"
             android:text="@{viewModel.user.first_name}"
-            android:textSize="25sp"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
 
@@ -63,7 +63,7 @@
             android:hint="Enter first name"
             android:inputType="text"
             android:text="@={viewModel.user.first_name}"
-            android:textSize="25sp"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
 
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:hint="last name"
             android:text="@{viewModel.user.last_name}"
-            android:textSize="25sp"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
         <EditText
@@ -83,7 +83,7 @@
             android:hint="Enter last name"
             android:inputType="text"
             android:text="@={viewModel.user.last_name}"
-            android:textSize="25sp"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
 
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
 
             android:text="@{`user_id: `  +viewModel.user.user_id }"
-            android:textSize="25sp"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:hint="Detail"
             android:text="@{`Detail: `  +viewModel.user.tokenCode +` email :`+viewModel.user.email_id+` password :`+viewModel.user.password}"
-            android:textSize="25sp"
+            android:textSize="20sp"
             tools:ignore="MissingConstraints" />
 
         <Button

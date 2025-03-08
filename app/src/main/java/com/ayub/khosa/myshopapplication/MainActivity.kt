@@ -19,19 +19,23 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ayub.khosa.myshopapplication.api.RetrofitBuilder
+import com.ayub.khosa.myshopapplication.model.USER
 import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-
+    val repository: MainActivityRepository by lazy {
+        MainActivityRepository(this)
+    }
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var navController: NavController
     lateinit var toolbar: androidx.appcompat.widget.Toolbar
     lateinit var drawerLayout: DrawerLayout
     lateinit var navigationView: NavigationView
     lateinit var linearLayout_busybox: LinearLayout
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 PrintLogs.printD(" lifecycleScope.launch  ok ")
-                val response = MainActivityRepository(RetrofitBuilder.apiService).getLoginUser(
+                val response = repository.getLoginUser(
                     "ayub.khosa@gmail.com",
                     "ayub"
                 )
@@ -120,6 +124,7 @@ class MainActivity : AppCompatActivity() {
 
                     response.data.let {
 
+                        addUserinDB(it)
                         val hView = navigationView.getHeaderView(0)
                         val nav_header_title =
                             hView.findViewById<View>(R.id.nav_header_title) as TextView
@@ -152,5 +157,18 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
-
+    fun addUserinDB(user: USER) {
+        PrintLogs.printD("addUserinDB  ")
+        try {
+            if (repository.fetchUSERByName(user.email_id, user.password) != null) {
+                repository.updateUSERinDB(user)
+                PrintLogs.printD("updateUSERinDB  ")
+            } else {
+                repository.insertUSERinDB(user)
+                PrintLogs.printD("insertUSERinDB  ")
+            }
+        } catch (e: Exception) {
+            PrintLogs.printD("Exception: ${e.message}")
+        }
+    }
 }

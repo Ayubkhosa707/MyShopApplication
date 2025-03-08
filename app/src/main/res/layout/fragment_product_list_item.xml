@@ -24,8 +24,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="aaa"
-            android:text="@{` name: `   +model.name +` id : `   +model.id}"
-            android:textSize="30sp" />
+            android:text="@{` name: `   +model.name +` product_id : `   +model.product_id}"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_price"
@@ -34,7 +34,7 @@
             android:gravity="center"
             android:hint="bbb"
             android:text="@{model.price}"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_description"
@@ -43,7 +43,7 @@
             android:gravity="center"
             android:hint="cc"
             android:text="@{model.description}"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_category"
@@ -52,12 +52,12 @@
             android:gravity="center"
             android:hint="dd"
             android:text="@{model.category}"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/my_item_imageview"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_gravity="center"
             app:load_image="@{model.img}" />
 

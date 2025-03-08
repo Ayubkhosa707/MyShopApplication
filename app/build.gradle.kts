@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.dagger.hilt.android") version "2.41" apply false
     id("kotlin-kapt")
+    id("com.google.devtools.ksp") version "1.9.0-1.0.12" apply false // For room
 }
 
 android {
@@ -51,11 +52,13 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.car.ui.lib)
-    implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.cronet.embedded)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -76,4 +79,11 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp-urlconnection:3.8.1")
 
   //  implementation ("com.github.franmontiel:PersistentCookieJar:v1.0.1")
+
+    // Room
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.1")
+    //  implementation ("android.arch.persistence.room:runtime:2.3.0")
+    kapt("androidx.room:room-compiler:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 }

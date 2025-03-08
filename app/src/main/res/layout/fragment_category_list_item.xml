@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="aaa"
-            android:text="@{` name: `   +model.name +` id : `   +model.id}"
-            android:textSize="30sp" />
+            android:text="@{` name: `   +model.name +` category_id : `   +model.category_id}"
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/my_item_imageview"

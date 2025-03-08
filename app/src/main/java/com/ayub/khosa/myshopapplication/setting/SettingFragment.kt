@@ -1,5 +1,6 @@
 package com.ayub.khosa.myshopapplication.setting
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ayub.khosa.myshopapplication.databinding.FragmentSettingBinding
+import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.repository.MyViewModelFactory
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 
@@ -26,12 +28,16 @@ class SettingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        val repository: MainActivityRepository by lazy {
+            MainActivityRepository(this.context as Context)
+        }
         _binding = FragmentSettingBinding.inflate(
             inflater, container, false
         )
         viewModel = ViewModelProvider(
             this,
-            MyViewModelFactory()
+            MyViewModelFactory(repository)
         ).get(
             SettingViewModel::class.java
         )

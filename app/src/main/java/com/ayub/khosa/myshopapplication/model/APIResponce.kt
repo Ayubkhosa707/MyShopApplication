@@ -1,4 +1,4 @@
-package com.ayub.khosa.myshopapplication.api
+package com.ayub.khosa.myshopapplication.model
 
 import com.google.gson.annotations.SerializedName
 

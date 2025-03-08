@@ -4,14 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ayub.khosa.myshopapplication.api.RetrofitBuilder
+import com.ayub.khosa.myshopapplication.model.PRODUCT
 import com.ayub.khosa.myshopapplication.model.USER
 import com.ayub.khosa.myshopapplication.repository.MainActivityRepository
 import com.ayub.khosa.myshopapplication.utils.PrintLogs
 import kotlinx.coroutines.launch
 
 
-class SettingViewModel : ViewModel() {
-
+class SettingViewModel(repository: MainActivityRepository) : ViewModel() {
+    val repository = repository
 
     var user = MutableLiveData<USER>()
     val errorMessage = MutableLiveData<String>()
@@ -28,14 +29,13 @@ class SettingViewModel : ViewModel() {
 
         _is_busy.value = true
         PrintLogs.printD("SettingViewModel  onsetting_user_loginClicked")
-        PrintLogs.printD("onsetting_user_loginClicked firstname : " + this.user.value?.first_name)
-        PrintLogs.printD("onsetting_user_loginClicked lastname : " + this.user.value?.last_name)
+
 
 
         viewModelScope.launch {
 
             try {
-                val response = MainActivityRepository(RetrofitBuilder.apiService).getLoginUser(
+                val response = repository.getLoginUser(
                     "ayub.khosa@gmail.com",
                     "ayub"
                 )
@@ -52,6 +52,7 @@ class SettingViewModel : ViewModel() {
 
 
                     user.postValue(response.data)
+                    addUserinDB(response.data)
 
 
                 } else {
@@ -74,7 +75,7 @@ class SettingViewModel : ViewModel() {
         viewModelScope.launch {
 
             try {
-                val response = MainActivityRepository(RetrofitBuilder.apiService).is_logged_in()
+                val response = repository.is_logged_in()
                 PrintLogs.printD(" onResponse Success :  " + response.response)
                 PrintLogs.printD(" onResponse Success :  " + response.data)
                 if (response.response == "Success") {
@@ -97,6 +98,21 @@ class SettingViewModel : ViewModel() {
     }
 
 
+    fun addUserinDB(user: USER) {
+        _is_busy.value = true
+        try {
+            if (repository.fetchUSERByName(user.email_id, user.password) != null) {
+                repository.updateUSERinDB(user)
+            } else {
+                repository.insertUSERinDB(user)
+            }
+            _is_busy.value = false
+        } catch (e: Exception) {
+            errorMessage.postValue(e.message)
+            _is_busy.value = false
+            PrintLogs.printD("Exception: ${e.message}")
+        }
+    }
 }
 
 

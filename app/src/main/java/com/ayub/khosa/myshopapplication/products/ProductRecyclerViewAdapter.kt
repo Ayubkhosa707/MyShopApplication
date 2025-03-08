@@ -11,16 +11,12 @@ import com.ayub.khosa.myshopapplication.databinding.FragmentProductListItemBindi
 import com.ayub.khosa.myshopapplication.model.ListPRODUCTS
 import com.ayub.khosa.myshopapplication.model.PRODUCT
 
-class ProductRecyclerViewAdapter :
+class ProductRecyclerViewAdapter(listPRODUCTS: ListPRODUCTS) :
     RecyclerView.Adapter<ProductRecyclerViewAdapter.MyViewHolder>() {
 
-    var productArrayList =MutableLiveData<ListPRODUCTS>()
+    var productArrayList = listPRODUCTS
 
-    fun setDataList(data: ListPRODUCTS) {
-        this.productArrayList = MutableLiveData<ListPRODUCTS>(data)
 
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,7 +38,7 @@ class ProductRecyclerViewAdapter :
 
     override fun getItemCount(): Int  {
 
-        return productArrayList.value?.products?.size ?: 0
+        return productArrayList.products?.size ?: 0
 
     }
 
@@ -58,7 +54,7 @@ class ProductRecyclerViewAdapter :
 //            .into(imageview)
 
 
-        (productArrayList.value?.products?.get(position) ?: null)?.let { holder.bind(it) }
+        (productArrayList.products?.get(position) ?: null)?.let { holder.bind(it) }
     }
 
 
